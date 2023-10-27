@@ -1,58 +1,84 @@
 #include "sort.h"
 
+
+/**
+ * swap - swap between two elements
+ *
+ * @array: array
+ * @i: index of elem 1
+ * @j: index of elem 2
+ *
+ * Return: nothing
+ */
+
+void swap(int array[], int i, int j)
+{
+	int temp;
+
+	temp = array[i];
+	array[i] = array[j];
+	array[j] = temp;
+}
+
+
 /**
  * partition - partition function
  *
  * @array: array to be sorted
- * @low: low index
- * @high: high index
+ * @start: low index
+ * @end: high index
  * @size: size
  *
  * Return: index
  */
 
-int partition(int *array, int low, int high, size_t size)
+int partition(int *array, int start, int end, size_t size)
 {
-	int pivot, i, j, temp;
+	int pivot = array[end];
+	int j = start - 1;
+	int i;
 
-	pivot = array[high];
-	i = low - 1;
-	for (j = low; j < high; j++)
+	for (i = start; i < end; i++)
 	{
-		if (array[j] <= pivot)
+		if (array[i] <= pivot)
 		{
-			i++;
-			temp = array[i];
-			array[i] = array[j];
-			array[j] = temp;
+			j++;
+			if (i != j)
+			{
+				swap(array, i, j);
+				print_array(array, size);
+			}
 		}
 	}
-	temp = array[i + 1];
-	array[i + 1] = array[high];
-	array[high] = temp;
-	print_array(array, size);
-	return (i + 1);
+	if (pivot < array[j + 1])
+	{
+		swap(array, j + 1, end);
+		print_array(array, size);
+	}
+	return (j + 1);
 }
 
+
 /**
- * quick_sort_recur - recursion func
+ * quick - recursion func
  *
  * @array: array to be sorted
- * @low: low index
- * @high: high index
+ * @start: low index
+ * @end: high index
  * @size: size
  */
 
-void quick_sort_recur(int *array, int low, int high, size_t size)
+void quick(int *array, int start, int end, size_t size)
 {
-	int pivot_index;
+	int pivotIndex;
 
-	if (low < high)
+	if (start < end)
 	{
-		pivot_index = partition(array, low, high, size);
-		quick_sort_recur(array, low, pivot_index - 1, size);
-		quick_sort_recur(array, pivot_index + 1, high, size);
+		pivotIndex = partition(array, start, end, size);
+		quick(array, start, pivotIndex - 1, size);
+		quick(array, pivotIndex + 1, end, size);
 	}
+
 }
 
 /**
@@ -64,10 +90,10 @@ void quick_sort_recur(int *array, int low, int high, size_t size)
 
 void quick_sort(int *array, size_t size)
 {
-	int low, high;
+	int start = 0;
+	int end = size - 1;
 
-	low = 0;
-	high = size - 1;
-
-	quick_sort_recur(array, low, high, size);
+	if (size < 2)
+		return;
+	quick(array, start, end, size);
 }
