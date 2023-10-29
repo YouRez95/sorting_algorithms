@@ -34,19 +34,7 @@ int partition(int *array, int start, int end, size_t size)
 	int pivot = array[end];
 	int i = start;
 	int j = end;
-	int k = start;
-	int equal = 1;
 
-	for (k = start; k < end; k++)
-	{
-		if (array[k] != pivot)
-		{
-			equal = 0;
-			break;
-		}
-	}
-	if (equal)
-		return (start);
 	while (i < j)
 	{
 		while (array[i] < pivot)
