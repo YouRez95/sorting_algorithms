@@ -96,7 +96,7 @@ void quick_sort_hoare(int *array, size_t size)
 	int start;
 	int end;
 
-	if (size < 2)
+	if (size < 2 || array == NULL)
 		return;
 	start = 0;
 	end = size - 1;
